@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>FineUI-Start</title>
+    <link rel="stylesheet" type="text/css" href="http://fanruan.design/fineui/2.0/fineui.min.css" />
+    <script src="http://fanruan.design/fineui/2.0/fineui.min.js"></script>
+    <script src="echarts/echarts.min.js"></script>
+    <style>
+        .day {
+            width: 150px;
+            font-size: 20px;
+            height: 40px;
+            padding: 10px 20px;
+
+        }
+    </style>
+</head>
+
+<body>
+    <div id="main" style="width: 600px;height:400px;"></div>
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        window.onload = function () {
+            BI.createWidget({
+                type: "bi.absolute",
+                element: "body",
+                items: [{
+                    el: {
+                        type: "bi.label",
+                        cls: "layout-bg1",
+                        height: 50,
+                        text: "提示",
+                        textAlign: "center"
+                    },
+                    left: 500,
+                    top: 50
+                }, {
+                    el: {
+                        type: "bi.img",
+                        width: 25,
+                        height: 25,
+                        src: "./img/1.png"
+                    },
+                    left: 542,
+                    top: 61
+                }]
+
+            })
+        };
+        var myChart = echarts.init(document.getElementById('main'));
+        var aRr = [];
+        for (var i = 0; i < 20; i++) {
+            aRr.push(Math.ceil(Math.random() * 10));//生成随机数
+        };
+        function randomData() {
+            now = new Date(+now + oneDay);
+            // console.log(now);
+
+            return {
+                value: [
+                    [now.getFullYear(), now.getMonth() + 1, now.getDate()].join('-')
+                ]
+
+            }
+        }
+
+        var data = [];
+        var oneDay = 24 * 3600 * 1000;   //设置一天的时间
+        var now = new Date();
+        now.setTime(now.getTime() - 2 * oneDay);   //得到两天前的日期
+        console.log(now);
+
+        var value = Math.random() * 5;
+        for (var i = 0; i < 20; i++) {
+            data.push(randomData());
+        }
+        console.log(data);
+        var option = {
+            title: {
+                text: '访问量' + 8434,
+                left: '5%',
+                top: '10%',
+                textStyle: {
+                    //文字颜色
+                    color: 'grey',
+                    //字体风格,'normal',
+                    fontStyle: 'normal',
+                    //字体粗细 'normal',
+                    fontWeight: 'bold',
+                    //字体系列
+                    fontFamily: 'sans-serif',
+                    //字体大小
+                    fontSize: 25
+                }
+            },
+            tooltip: {
+                trigger: 'axis',
+                formatter: function (params) {
+                    params = params[0];
+                    var date = new Date(params.name);
+                    // console.log(date);
+                    return params.name[0] + '</span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp  ' + params.data;
+                },
+                axisPointer: {
+                    type: 'cross',
+                    label: {
+                        backgroundColor: '#6a7985'
+                    }
+                }
+            },
+            toolbox: {
+                feature: {
+                    saveAsImage: {}
+                }
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            xAxis: [
+                {
+                    type: 'category',
+                    boundaryGap: false,
+                    axisLabel: {
+                        formatter: function () {
+                            return "";
+                        }
+                    },
+
+                    "axisLine": {
+                        "show": false
+
+                    },
+                    "axisTick": {
+                        "show": false
+                    },
+                    "splitLine": {
+                        "show": false
+                    },
+                    data: data
+                }
+            ],
+            yAxis: [
+                {
+                    axisLabel: {
+                        formatter: function () {
+                            return "";
+                        }
+                    },
+                    max: 20,  // 设置Y轴最大值
+
+                    type: 'value',
+                    "axisLine": {       //y轴
+                        "show": false
+
+                    },
+                    "axisTick": {       //y轴刻度线
+                        "show": false
+                    },
+                    "splitLine": {     //网格线
+                        "show": false
+                    },
+
+                }
+            ],
+            series: [
+
+                {
+                    name: '',
+                    type: 'line',
+                    smooth: true,
+                    stack: '总量',
+                    label: {
+                        normal: {
+                            show: false,
+                            position: 'top'
+                        }
+                    },
+                    areaStyle: { normal: {} },
+
+                    color: ['rgb(154, 68, 235)'], //折线颜色
+                    areaStyle: {
+                        color: 'rgb(154, 68, 235)' //折线下方色块颜色
+                    },
+                    data: aRr
+
+                }
+            ]
+        };
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+
+    </script>
+    <br />
+    <br />
+    <hr style="background: pink;" />
+    <div class="day">日访问量: 1234</div>
+</body>
+
+</html>
