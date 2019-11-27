@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="http://fanruan.design/fineui/2.0/fineui.min.css" />
+    <script src="http://fanruan.design/fineui/2.0/fineui.min.js"></script>
+    <script src="echarts/echarts.min.js"></script>
+
+    <title>销售额与访问量</title>
+    <style>
+        body {
+            background: rgb(204, 204, 224);
+        }
+
+        .block {
+            width: 950px;
+            height: 450px;
+            background: #fff;
+            border-radius: 5px;
+            margin: 20px auto;
+        }
+
+        .mytitle {
+            position: relative;
+            width: 100%;
+            height: 50px;
+            border-bottom: 1px solid rgb(193, 208, 228);
+            display: flex;
+            flex-direction: row;
+        }
+
+        .line {
+            width: 65px;
+            height: 2px;
+            position: absolute;
+            background: rgb(34, 159, 218);
+            left: 35px;
+            bottom: 0;
+            transition: all 0.2s linear;
+        }
+
+        .select {
+            flex: 1;
+        }
+
+        .date {
+            flex: 1;
+
+        }
+
+        .select>span {
+            display: inline-block;
+            width: 100px;
+            height: 30px;
+            padding: 15px;
+            text-align: center;
+            font-size: 16px;
+
+        }
+
+        .select>span:hover {
+            color: rgb(34, 159, 218);
+        }
+
+        .colorblue {
+            color: rgb(34, 159, 218);
+        }
+
+        .date1 {
+            width: 163px;
+            float: left;
+        }
+
+        .date1>span {
+            display: inline-block;
+            width: 32px;
+            height: 30px;
+            padding: 15px 3px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .date1>span:hover {
+            color: rgb(34, 159, 218);
+        }
+
+        .calender {
+            width: 260px;
+            float: left;
+            padding-left: 25px;
+            padding-top: 15px;
+        }
+
+        .text {
+            width: 100%;
+            height: 400px;
+            overflow: hidden;
+        }
+
+        .xuanka {
+            width: 200%;
+            height: 100%;
+            margin-left: 0;
+            transition: all 0.2s linear;
+        }
+
+        .xuanka>li:nth-child(1) {
+            width: 50%;
+            height: 100%;
+            background: #fff;
+        }
+
+        .xuanka>li:nth-child(2) {
+            width: 50%;
+            height: 100%;
+
+        }
+
+        li {
+            list-style: none;
+            float: left;
+        }
+
+        .shop {
+            width: 250px;
+            height: 360px;
+            float: left;
+            position: relative;
+        }
+
+        #main,
+        #main1 {
+            float: left;
+        }
+
+        .sale_bang {
+            position: absolute;
+            width: 90%;
+            height: 30px;
+            top: 3%;
+            left: 12px;
+            font-size: 14px;
+            color: grey;
+
+        }
+
+        .shop_name {
+            position: absolute;
+            top: 50px;
+            left: 0;
+            width: 90%;
+            height: 300px;
+        }
+
+        .everyshop {
+            width: 100%;
+            height: 30px;
+            margin: 5px;
+        }
+
+        .everyshop>span {
+            display: inline-block;
+            text-align: center;
+            color: grey;
+            font-size: 14px;
+            margin: 10px 5px;
+        }
+
+        .everyshop>span:nth-child(1) {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            color: #333;
+            line-height: 20px;
+            background: gainsboro;
+        }
+
+        .everyshop>span:nth-child(2) {
+            width: 100px;
+            height: 30px;
+            line-height: 30px;
+            letter-spacing: 1px;
+        }
+
+        .blackcircle {
+            color: #fff !important;
+            background: rgb(78, 78, 78) !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="block">
+        <div class="mytitle">
+            <span class="line"></span>
+            <div class="select">
+                <span class="num colorblue">销售额</span>
+                <span class="num">访问量</span>
+            </div>
+            <div class="date">
+                <div class="date1">
+                    <span>今日</span>
+                    <span>本周</span>
+                    <span>本月</span>
+                    <span class="colorblue">全年</span>
+                </div>
+                <div class="calender"></div>
+            </div>
+        </div>
+        <div class="text">
+            <ul class="xuanka">
+                <li>
+                    <div id="main" style="width: 700px;height:350px;"></div>
+                    <div class="shop">
+                        <div class="sale_bang">门店销售额排名</div>
+                        <ul class="shop_name">
+                            <li class="everyshop">
+                                <span class="blackcircle">1</span>
+                                <span>工专路0号店</span>
+                                <span>323,324</span>
+                            </li>
+                            <li class="everyshop">
+                                <span class="blackcircle">2</span>
+                                <span>工专路1号店</span>
+                                <span>323,324</span>
+                            </li>
+                            <li class="everyshop">
+                                <span class="blackcircle">3</span>
+                                <span>工专路2号店</span>
+                                <span>323,324</span>
+                            </li>
+                            <li class="everyshop">
+                                <span>4</span>
+                                <span>工专路3号店</span>
+                                <span>323,324</span>
+                            </li>
+                            <li class="everyshop">
+                                <span>5</span>
+                                <span>工专路4号店</span>
+                                <span>323,324</span>
+                            </li>
+                            <li class="everyshop">
+                                <span>6</span>
+                                <span>工专路5号店</span>
+                                <span>323,324</span>
+                            </li>
+                            <li class="everyshop">
+                                <span>7</span>
+                                <span>工专路6号店</span>
+                                <span>323,324</span>
+                            </li>
+
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <div id="main1" style="width: 700px;height:350px;"></div>
+                    <div class="shop">
+                        <div class="sale_bang">门店访问量排名</div>
+                        <ul class="shop_name">
+                            <li class="everyshop">
+                                <span class="blackcircle">1</span>
+                                <span>工专路0号店</span>
+                                <span>323,324</span>
+                            </li>
+                            <li class="everyshop">
+                                <span class="blackcircle">2</span>
+                                <span>工专路1号店</span>
+                                <span>323,324</span>
+                            </li>
+                            <li class="everyshop">
+                                <span class="blackcircle">3</span>
+                                <span>工专路2号店</span>
+                                <span>323,324</span>
+                            </li>
+                            <li class="everyshop">
+                                <span>4</span>
+                                <span>工专路3号店</span>
+                                <span>323,324</span>
+                            </li>
+                            <li class="everyshop">
+                                <span>5</span>
+                                <span>工专路4号店</span>
+                                <span>323,324</span>
+                            </li>
+                            <li class="everyshop">
+                                <span>6</span>
+                                <span>工专路5号店</span>
+                                <span>323,324</span>
+                            </li>
+                            <li class="everyshop">
+                                <span>7</span>
+                                <span>工专路6号店</span>
+                                <span>323,324</span>
+                            </li>
+
+                        </ul>
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+    </div>
+    <script>
+        window.onload = function () {
+            BI.createWidget({
+                type: "bi.vertical",
+                element: ".calender",
+                items: [{
+                    el: {
+                        type: "bi.date_interval",
+                        value: {
+                            start: {
+                                type: 1,
+                                value: {
+                                    year: 2019,
+                                    month: 01,
+                                    day: 01
+                                }
+                            },
+                            end: {
+                                type: 2,
+                                value: {
+                                    year: -1,
+                                    month: +13,
+                                    position: 3
+                                }
+                            }
+                        }
+                    }
+                }]
+            })
+        };
+    </script>
+    <script src="js/jquery-1.9.1.js"></script>
+
+    <script>
+        $(function () {
+            /* var data=[[513, 624, 453, 758, 1153, 568, 674, 513, 678, 549, 621, 567],
+                      [721, 544, 353, 658, 753, 968, 474, 913, 878, 549, 752, 567],
+                      [453, 564, 321, 579, 784, 974, 678, 457, 861, 453, 754 ,321],
+                      [763, 456, 365, 678, 456, 876, 1001, 789, 600, 533, 674, 459]] */
+
+            $(".num").click(function () {
+                $(".num").eq($(this).index()).addClass("colorblue").siblings().removeClass('colorblue');
+                $(".line").css({
+                    "left": $(".num").index(this) * 133 + 35
+                })
+                $(".xuanka").css({
+                    "marginLeft": -($(".num").index(this) * 950)
+                })
+            })
+            $(".date1 span").click(function () {
+                $(".date1 span").eq($(this).index()).addClass("colorblue").siblings().removeClass('colorblue');
+            })
+        })
+        var myChart = echarts.init(document.getElementById('main'));
+        var myChart1 = echarts.init(document.getElementById('main1'));
+
+        var option = {
+            color: ['rgb(111, 181, 238)'],
+            title: {
+                text: '销售趋势',
+                left: '3%',
+                top: '3%',
+                textStyle: {
+                    //文字颜色
+                    color: '#333',
+                    fontWeight: 'normal',
+                    //字体大小
+                    fontSize: 15
+                }
+            },
+
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                    type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                },
+                formatter: function (params) {
+                    // params = params[0];
+                    var result = ''
+                    var dotHtml = '<span style="display:inline-block;margin-right:5px;border-radius:5px;width:6px;height:6px;background-color:rgb(34, 159, 218)"></span>'
+                    params.forEach(function (item) {
+                        result += dotHtml + '</span>&nbsp&nbsp' + item.axisValue + '</span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp  ' + item.data
+                    })
+                    return result
+                },
+                backgroundColor: '#fff',
+                textStyle: {
+                    color: 'grey',
+                    fontSize: 13
+                }
+
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            xAxis: [
+                {
+                    type: 'category',
+                    data: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+                    axisTick: {
+                        alignWithLabel: true
+                    },
+                }
+            ],
+            yAxis: [
+                {
+                    type: 'value',
+
+                    "axisLine": {       //y轴
+                        "show": false
+
+                    },
+                    "axisTick": {       //y轴刻度线
+                        "show": false
+                    },
+                    "splitLine": {     //网格线
+                        show: true,
+                        lineStyle: {
+                            color: ['rgb(193, 208, 228)'],
+                            width: 1,
+                            type: 'dashed'
+                        }
+                    }
+                }
+            ],
+            series: [
+                {
+                    name: '',
+                    type: 'bar',
+                    barWidth: '60%',
+                    data: [513, 624, 453, 758, 1153, 568, 674, 513, 678, 549, 621, 567]
+                }
+            ]
+        };
+        var option1 = {
+            color: ['rgb(111, 181, 238)'],
+            title: {
+                text: '访问量',
+                left: '3%',
+                top: '3%',
+                textStyle: {
+                    //文字颜色
+                    color: '#333',
+                    //字体大小
+                    fontSize: 15
+                }
+            },
+            tooltip: {
+                trigger: 'axis',
+                formatter: function (params) {
+                    params = params[0];
+                    console.log(params);
+
+                    /*  var date = new Date(params.name);
+                     // console.log(date);
+                     return params.name[0] + '</span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp  ' + params.data; */
+                },
+                axisPointer: {
+                    type: 'none',
+                    label: {
+                        backgroundColor: '#fff'
+                    }
+                }
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            xAxis: [
+                {
+                    type: 'category',
+                    data: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+                    axisTick: {
+                        alignWithLabel: true
+                    },
+                }
+            ],
+            yAxis: [
+                {
+                    type: 'value',
+
+                    "axisLine": {       //y轴
+                        "show": false
+
+                    },
+                    "axisTick": {       //y轴刻度线
+                        "show": false
+                    },
+                    "splitLine": {     //网格线
+                        show: true,
+                        lineStyle: {
+                            color: ['rgb(193, 208, 228)'],
+                            width: 1,
+                            type: 'dashed'
+                        }
+                    }
+                }
+            ],
+            series: [
+                {
+                    name: '',
+                    type: 'bar',
+                    barWidth: '60%',
+                    data: [513, 624, 453, 758, 1153, 568, 674, 513, 678, 549, 621, 567]
+                }
+            ]
+        };
+        myChart.setOption(option);
+        myChart1.setOption(option1)
+    </script>
+</body>
+
+</html>
