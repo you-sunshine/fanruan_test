@@ -2,24 +2,19 @@ import java.util.Scanner;
 
 public class Test {
     public static void main(String[] args) {
-        Scanner scan = new Scanner(System.in);
-        System.out.println("请输入:");
-        int n = Integer.parseInt(scan.nextLine().trim());
-        //设置a b c 的初始值 在后面的代码中使a b c 的值不断变化
-        long a =1,b = 1,c = 0;
-//        System.out.print("前"+n+"项为:\n"+a+"\t"+b+"\t");
-        for(int i=3;i<=n;i++){//此处要减去两项
-            c = a + b;
-            a = b;
-            b = c;
-//            System.out.print(c+"\t");
-            if(i%10==0){
-                System.out.println();
-            }
+        /**
+         * 迭代法求a的平方根：temp=a/temp时，temp为其平方根，
+         两者差小于10的负4次方，<1e-4，即为精确到小数点后四位
+         temp  和 a/temp 分别位于a的平方根的两头，一个大于，一个小于，
+         取两者的平均值进行迭代。
+         */
+        Scanner sc = new Scanner(System.in);
+        int a = sc.nextInt();
+        float temp=1;
+        while(Math.abs(temp-a/temp)>1e-4)
+        {
+            temp=(temp+a/temp)/2;
         }
-        //输出请第n项的值:
-        System.out.println("\n"+"f("+n+")="+c);
-          System.out.println(c);
+        System.out.println(temp);
     }
-
 }
